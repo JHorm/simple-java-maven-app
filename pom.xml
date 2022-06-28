@@ -17,6 +17,9 @@
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <dependency-check-format>HTML</dependency-check-format>
+    <maven.compiler.source>18</maven.compiler.source>
+    <maven.compiler.target>18</maven.compiler.target>
   </properties>
   <build>
     <pluginManagement>
@@ -63,6 +66,21 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.owasp</groupId>
+        <artifactId>dependency-check-maven</artifactId>
+        <version>7.1.1</version>
+        <configuration>
+          <!-- Skip artifacts not bundled in distribution (provided scope) -->
+          <skipProvidedScope>true</skipProvidedScope>
+          <!-- Suppress false positives or dependencies that cannot be changed for specific reasons.-->
+          <format>${dependency-check-format}</format>
+
+        </configuration>
+        <!-- Don't specify an execution, because this might take long and is not needed in every build.
+             A report can be generated on demand using "mvn org.owasp:dependency-check-maven:check"
+             report will be saved to target/dependency-check-report.html -->
       </plugin>
     </plugins>
   </build>
